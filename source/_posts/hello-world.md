@@ -2,7 +2,7 @@
 title: hello world
 ---
 
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1293036&auto=1&height=66"></iframe>
+<iframe frameborder="no" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1293036&auto=1&height=66"></iframe>
 
 在互联网没有普及的时候，人们获取知识的主要途径是书籍；互联网普及之后，人们开始在网上获取信息。
 然而书分有好有坏，信息分有价值无价值。网络上的能获取的信息无穷无尽，无价值的信息却也更多。尤其做搜索相关，对这点更有感触。  
