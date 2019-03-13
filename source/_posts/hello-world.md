@@ -2,7 +2,11 @@
 title: hello world
 ---
 
-这周值周，不做需求只处理case，趁机搭个小网站，用于记录日常工作学习的资料。  
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1293036&auto=1&height=66"></iframe>
+
+在互联网没有普及的时候，人们获取知识的主要途径是书籍；互联网普及之后，人们开始在网上获取信息。
+然而书分有好有坏，信息分有价值无价值。网络上的能获取的信息无穷无尽，无价值的信息却也更多。尤其做搜索相关，对这点更有感触。  
+在网上搜东西会经常感触，需要很久才能找到真正有价值的信息，然后存到书签，日后回顾。后来想着搭个个人小站，用于记录这些对学习有帮助的信息。  
 互联网进入快餐时代，搭建网站，app，都已经有成型的模板，极低的成本就可以快速原型。想想上学的时候还会练习用vue手写博客网站。而现在懒得只想用模板去做这种事情。
 
 ## 快速开始
@@ -24,3 +28,10 @@ title: hello world
 配置好模板和主题后，可以运行`hexo server`观察下效果。
 
 
+### 发布
+
+可以直接借助github发布网站。首先配置个空repo [github pages](https://pages.github.com)，不用choose theme，repo成功建立且配置了site就可以了。后续可以
+
+- 直接用hexo的命令发布上去[hexo deploy](https://hexo.io/zh-cn/docs/deployment.html)
+
+然后在浏览器中访问你配置的那个site就可以访问到你的网站了
