@@ -89,3 +89,10 @@ deploy:
   type: git
   repo: https://github_token@github.com/GardianT/GardianT.github.io.git
   branch: master
+
+# 如果不通过travis发布，而使用hexo deploy，打开这个配置
+# deploy:
+#   type: git
+#   repo: https://github.com/GardianT/GardianT.github.io.git
+#   branch: master
+

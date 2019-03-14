@@ -32,6 +32,18 @@ title: hello world
 
 可以直接借助github发布网站。首先配置个空repo [github pages](https://pages.github.com)，不用choose theme，repo成功建立且配置了site就可以了。后续可以
 
-- 直接用hexo的命令发布上去[hexo deploy](https://hexo.io/zh-cn/docs/deployment.html)
+#### 直接用hexo的命令发布上去
 
-然后在浏览器中访问你配置的那个site就可以访问到你的网站了
+[hexo deploy](https://hexo.io/zh-cn/docs/deployment.html)
+
+然后在浏览器中访问你配置的那个site就可以访问到你的网站了  
+
+#### 通过travis发布到你的网站
+
+[hexo遇上travis](https://juejin.im/post/5a1fa30c6fb9a045263b5d2a)
+
+其实hexo本身已经非常方便了，不过在新电脑上部署环境确实会折腾一些。比如我的电脑因为node版本问题npm已经不能用了，还需要折腾很久修复。  
+所以如果你只需要在别的机器上写markdown然后push上去，通过travis会更方便，免去配置环境的时间。  
+不过要注意：使用travis后，如果再想使用hexo发布的话，你需要修改你的`_config.yml`。且通过travis你无法本地预览效果，所以你如果自己修改了`theme`或者css等，还是配置hexo更好。  
+
+
