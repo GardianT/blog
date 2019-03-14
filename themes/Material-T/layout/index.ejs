@@ -20,7 +20,7 @@
                     <p class="h6">
                         <i class="material-icons">date_range</i><%- date(post.date,"YYYY-MM-DD") %>
                         <% if(post.tags.length) { %>
-                            <i class="material-icons">bookmark_border</i>
+                            <i class="material-icons">label</i>
                                 <% post.tags.each(function(tag){ %>
                                     <%= tag.name %> &nbsp;
                                 <% }) %>
