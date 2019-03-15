@@ -1,5 +1,5 @@
 ---
-title: 一致性hash算法与负载均衡
+title: 一致性hash与负载均衡
 date: 2019-03-14 20:41:33
 tags: 
     - 一致性hash
