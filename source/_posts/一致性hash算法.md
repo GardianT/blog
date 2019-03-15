@@ -36,13 +36,13 @@ tags:
 - 基于上面，很容易理解，真实server会负责随机的区间，比如B负责的区间是(101, 203]和(321, 432]区间。同样可以得知，**由于consistent hash是随机插入虚拟节点的，并不保证所有server最后会均分区间。**但是扩充的虚拟节点越多，区间就越可能趋近于均匀。比如[0, 1000)，如果你扩充出来1000个虚拟节点，那就一定均匀了。所以虚拟节点的存在才是一致性hash能解决热点问题的核心点。但是扩充太多同样影响查找的性能。所以扩充多少也要结合实际。在brpc里这个数字是100，也就是每个server扩充100个虚拟节点。
 - 查找比较简单，就是计算数据的hash值，这个hash值映射到range，然后寻找这个hash值对应range的虚拟节点。比如一个数据计算hash值是140，就应该由B2这个虚拟节点处理。也就是由真实server B处理。
 - 宕机掉节点问题：如果一个机器宕机，当hash到与这个机器对应的range的时候，由于这个虚拟节点（对应的真实server）已经宕机，所以他会继续寻找下一个虚拟节点。也就是说，一个server宕机了，他的所有虚拟节点负责的range，被merge到与它相邻的虚拟节点。举例子，我们假设B这个server宕机了，一条数据计算出hash值是140。根据原来的分配，应该由虚拟节点B2处理。但B2已经失效，就会继续向下找节点，找到了C2。也就是说，C2负责的range从原来的(203, 321]变成了(101, 321]。而由于虚拟节点是随机插入的，所以也能保证server宕机的时候，他负责的range会被随机的其他若干server承担。
-- hash算法（比如murmurhash）可以保证哪怕输入有规律的情况下，hash也是随机的。所以就可以保证请求散落全环。
 
-总结：consistent hash利用虚拟节点解决热点和宕机的问题。 **然而实际上consistent hash是否真的适用，要结合业务场景考虑。** 比如murmurhash的引入，会让有规律的输入也会随机hash，这样是否导致了consistent hash的分散性有较大问题；而如果没有murmurhash，是否又会导致平衡性出现问题。
+总结：consistent hash利用虚拟节点解决热点和宕机的问题。 **然而实际上consistent hash是否真的适用，要结合业务场景考虑。** 比如你具体的hash算法，应该选什么。比如murmurhash可以保证哪怕输入有规律的情况下，hash也是随机的。这样是否导致了consistent hash的分散性有较大问题；而如果没有murmurhash，是否又会导致平衡性出现问题。
 
 ### Rendezvous hashing
 
-相关资料奇缺，代码实现貌似也只见过go有个相关package。基于维基百科的[Rendezvous hashing](https://en.wikipedia.org/wiki/Rendezvous_hashing)尝试自己翻译。从The HRW algorithm for rendezvous hashing这段开始，扩号内容是我自己的注解：
+#### 工作原理
+相关资料奇缺，代码实现貌似也只见过go有个相关package。基于维基百科的[Rendezvous hashing](https://en.wikipedia.org/wiki/Rendezvous_hashing)尝试自己翻译。去解释rendezous hash的工作原理。从The HRW algorithm for rendezvous hashing这段开始，扩号内容是我自己的注解：
 
 #### The HRW algorithm for rendezvous hashing
 给定一个object O，如何让所有的client去达成一致，选出一个server集合去放置O？每个client都可能自己独立的选一个server，但是最后必须要让所有client选择相同的server。有一个非常重要的点是我们要增加一个最小中断约束，即只有mapping到了被移出server的object才可以重新分配server。
@@ -51,7 +51,15 @@ HRW算法可以轻易适应不同server之间的不同capacity。假如server k�
 
 #### Properties
 
-(最开始出现的基于直接hash的distribute hash table)每一个server都视为一个bucket，形成一个hash table，然后将object O hash到这个table中。然而如果有server出现故障，会引起整个hash table的size变化，所有的object都要remapping，(会带来很多的问题，比如cache颠簸等)这样巨大的破坏，使得直接hash不可行。而rendezvous hash，client在遇到站点失败的时候，
+(最开始出现的基于直接hash的distribute hash table)每一个server都视为一个bucket，形成一个hash table，然后将object O hash到这个table中。然而如果有server出现故障，会引起整个hash table的size变化，所有的object都要remapping，(会带来很多的问题，比如cache颠簸等)这样巨大的破坏，使得直接hash不可行。而rendezvous hash下，client在遇到server失败的时候，会选择下一个weight最大的server。remapping只会在server故障的情况出现，满足最小中断请求。rendezvous hashing有以下几个特点：
+1. low overhead：hash算法很搞笑，所以给client带来的额外压力很低。
+2. load balancing：hash算法是随机的，所以每个server在object面前都是等价的。从而负载也是均衡的。在server的capacity不同的时候，可以根据capacity容量比例来进行多重复制。比如一个两倍capacity的server可以在server list出现两次。
+3. high hit rate：所有的client都会将object O分配给相同的server O，所以fetch或者place O会达到最大的hit rate。除非server O内部有驱逐算法淘汰，否则你总会在server O中找到object O。
+4. minimal disruption：当一个server故障时候，只有被mapping到这个server的objects会被remap。中断在最低可能。
+5. distributed k-agreement: 所有的client都可以找到相同的k个server，只要按weight排序选最大的k个server就可以了。
+
+#### 总结
+总结: 结合这个[stackoverflow](https://stackoverflow.com/questions/20790898/consistent-hashing-vs-rendezvous-hrw-hashing-what-are-the-tradeoffs)：rendezvous hash是在server中pick出来k个server，作为object应该对应的对象。当k为1的时候，其实这个算法等价于consistent hash，没区别。他们的主要区别在于server故障时候的的异常处理：consistent hash由于虚拟节点是随机插入的，故障server对应的range被哪些server分摊了，你无法得知；用rendezvous hashing的话你可以用hash算法计算出来这个server在哪。不过不确认这样是否比consistent hash有优势，比如是不是有可能解决不了热点问题？
 
 ## 负载均衡
 
