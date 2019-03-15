@@ -8,9 +8,7 @@ tags:
 
 ## 一致性hash
 
-[一致性hash原理](https://www.cnblogs.com/lpfuture/p/5796398.html)
-
-好的一致性算法应该有什么特性，这个文章里有一段讲述的非常准确，基本完全match线上生产环境了：
+好的一致性算法应该有什么特性，有一段讲述的非常准确，基本完全match线上生产环境了：
 
 > **平衡性(Balance)**
 >平衡性是指哈希的结果能够尽可能分布到所有的缓冲中去，这样可以使得所有的缓冲空间都得到利用。很多哈希算法都能够满足这一条件。
@@ -28,6 +26,8 @@ tags:
 >平滑性是指缓存服务器的数目平滑改变和缓存对象的平滑改变是一致的。
 
 ### consistent hashing
+
+[一致性hash原理](https://www.cnblogs.com/lpfuture/p/5796398.html)
 
 [consistent_hashing](https://github.com/apache/incubator-brpc/blob/master/docs/cn/consistent_hashing.md)  
 
