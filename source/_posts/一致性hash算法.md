@@ -28,7 +28,6 @@ tags:
 ### consistent hashing
 
 [一致性hash原理](https://www.cnblogs.com/lpfuture/p/5796398.html)
-
 [consistent_hashing](https://github.com/apache/incubator-brpc/blob/master/docs/cn/consistent_hashing.md)  
 
 - 把所有server的处理区间视为一个环。比如[0, 1000)这样一个range。1000和0是相连的
@@ -43,7 +42,16 @@ tags:
 
 ### Rendezvous hashing
 
-> 相关资料奇缺，代码实现貌似也只见过go有个相关package。尝试啃英文了解这部分相关
+相关资料奇缺，代码实现貌似也只见过go有个相关package。基于维基百科的[Rendezvous hashing](https://en.wikipedia.org/wiki/Rendezvous_hashing)尝试自己翻译。从The HRW algorithm for rendezvous hashing这段开始，扩号内容是我自己的注解：
+
+#### The HRW algorithm for rendezvous hashing
+给定一个object O，如何让所有的client去达成一致，选出一个server集合去放置O？每个client都可能自己独立的选一个server，但是最后必须要让所有client选择相同的server。有一个非常重要的点是我们要增加一个最小中断约束，即只有mapping到了被移出server的object才可以重新分配server。
+基础的想法是，基于每个object O，为每个server j去计算一个得分，然后将object o分配给最高得分的server。首先，所有的client要有一致的hash算法h()。对于每一个object O，server j会计算出一个权重 `w(i, j) = h(Oi, Sj)`。HRW算法会将object O分配给权重最高的server。因为hash算法是一致的，所有的client都可以各自计算权重并挑选最高权重的server。如果是想做k-agreement，那就每个client都挑选权重最大的k个value就好了。如果server S被添加或删除，只有被mapping到S的object会被remapping，这样就满足了我们上面提到的最小中断约束。任意client都可以基于HRW计算object最终的分配（server），因为影响分配的只有server和object自身。
+HRW算法可以轻易适应不同server之间的不同capacity。假如server k拥有别的server的两倍容量，那我们只要将server k push到server list两次(比如k1，k2这样)，很显然这样server k就会被分配到两倍的object。
+
+#### Properties
+
+(最开始出现的基于直接hash的distribute hash table)每一个server都视为一个bucket，形成一个hash table，然后将object O hash到这个table中。然而如果有server出现故障，会引起整个hash table的size变化，所有的object都要remapping，(会带来很多的问题，比如cache颠簸等)这样巨大的破坏，使得直接hash不可行。而rendezvous hash，client在遇到站点失败的时候，
 
 ## 负载均衡
 
