@@ -41,7 +41,7 @@ tags:
 （对应的真实server）已经宕机，所以他会继续寻找bound。而由于虚拟节点是随机插入的，所以也能保证server宕机的时候，他负责的range会被随机的其他若干server承担。
 - hash算法（比如murmurhash）可以保证哪怕输入有规律的情况下，hash也是随机的。所以就可以保证请求散落全环。
 
-总结：consistent hash利用虚拟节点解决热点和宕机的问题。**然而实际上consistent hash是否真的适用，要结合业务场景考虑。**比如murmurhash的引入，是否导致了consistent hash的分散性有较大问题。而如果没有murmurhash，是否又会导致平衡性出现问题。
+总结：consistent hash利用虚拟节点解决热点和宕机的问题。 **然而实际上consistent hash是否真的适用，要结合业务场景考虑。** 比如murmurhash的引入，会让有规律的输入也会随机hash，这样是否导致了consistent hash的分散性有较大问题；而如果没有murmurhash，是否又会导致平衡性出现问题。
 
 ### Rendezvous hashing
 
