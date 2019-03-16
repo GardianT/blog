@@ -78,7 +78,7 @@ rendezvous hashing也在其他重要问题处理上提供了很简单的解决�
 - server故障时候的的异常处理：consistent hash由于虚拟节点是随机插入的，故障server对应的range被哪些server分摊了，你无法得知；用rendezvous hashing的话你可以用hash算法计算出来这个server在哪。
 - 多server pick的支持：计算hash值后，HRW算法可以选多个server。
 
-没有实际应用过这个算法，如果真的像他说的有一个O(logn)的计算，可能看起来还好一些；否则的话并没有感觉这个算法与consistent hash相比有多么大的优势。
+没有实际应用过这个算法，如何O(logn)的计算没有细看，感觉每一个object都要算多次hash，这个算法计算量太大；并没有感觉这个算法与consistent hash相比有多么大的优势。
 
 ## 负载均衡
 
