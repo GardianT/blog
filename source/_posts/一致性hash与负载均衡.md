@@ -37,7 +37,7 @@ tags:
 - 查找比较简单，就是计算数据的hash值，这个hash值映射到range，然后寻找这个hash值对应range的虚拟节点。比如一个数据计算hash值是140，就应该由B2这个虚拟节点处理。也就是由真实server B处理。
 - 宕机掉节点问题：如果一个机器宕机，当hash到与这个机器对应的range的时候，由于这个虚拟节点（对应的真实server）已经宕机，所以他会继续寻找下一个虚拟节点。也就是说，一个server宕机了，他的所有虚拟节点负责的range，被merge到与它相邻的虚拟节点。举例子，我们假设B这个server宕机了，一条数据计算出hash值是140。根据原来的分配，应该由虚拟节点B2处理。但B2已经失效，就会继续向下找节点，找到了C2。也就是说，C2负责的range从原来的(203, 321]变成了(101, 321]。而由于虚拟节点是随机插入的，所以也能保证server宕机的时候，他负责的range会被随机的其他若干server承担。
 
-总结：consistent hash利用虚拟节点解决热点和宕机的问题。 **然而实际上consistent hash是否真的适用，要结合业务场景考虑。** 比如你具体的hash算法，应该选什么。比如murmurhash可以保证哪怕输入有规律的情况下，hash也是随机的。这样是否导致了consistent hash的分散性有较大问题；而如果没有murmurhash，是否又会导致平衡性出现问题。
+总结：consistent hash利用虚拟节点解决热点和宕机的问题。 如果server同构，无状态，可以考虑用consistent hashing来实现比较理想的负载均衡。**但如果server异构（比如sharding特征），将不适用一致性hash来解决负载均衡**。 [issue](https://github.com/apache/incubator-brpc/issues/649)
 
 ### Rendezvous hashing
 
@@ -83,3 +83,4 @@ rendezvous hashing也在其他重要问题处理上提供了很简单的解决�
 ## 负载均衡
 
 [locality-aware load balancing](https://github.com/apache/incubator-brpc/blob/master/docs/cn/lalb.md)
+和前面consistent hashing一样。这种负载均衡策略也是适合于server无状态。
