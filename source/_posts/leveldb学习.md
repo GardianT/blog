@@ -13,3 +13,7 @@ tags: levelDB
 
 [bigtable论文](http://blog.csdn.net/shijinupc/article/details/7475575)
 [leveldb数据结构](http://blog.csdn.net/linuxheik/article/details/52768223)
+
+http://bean-li.github.io/leveldb-manifest/
+https://blog.csdn.net/anderscloud/article/details/7182165
+https://dirtysalt.github.io/html//leveldb.html#orgheadline6
