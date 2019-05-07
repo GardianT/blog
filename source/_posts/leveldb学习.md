@@ -11,6 +11,8 @@ tags: levelDB
 [levelDB中的sstable](http://bean-li.github.io/leveldb-sstable-bloom-filter/)
 [TransactionDB的介绍](https://zhuanlan.zhihu.com/p/39427559)
 
+[跳表 skiplist](https://blog.csdn.net/u013851082/article/details/69224553)
+
 [bigtable论文](http://blog.csdn.net/shijinupc/article/details/7475575)
 [leveldb数据结构](http://blog.csdn.net/linuxheik/article/details/52768223)
 
