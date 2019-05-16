@@ -7,3 +7,4 @@ tags:
 [linux内存分配原理](https://vinoit.me/2016/05/20/linux-memory-alloc/)
 [linux内存管理](https://blog.csdn.net/hustyangju/article/details/46330259)
 [伙伴算法](https://blog.csdn.net/wenqian1991/article/details/27968779)
+[虚函数表](https://blog.csdn.net/haoel/article/details/1948051)
