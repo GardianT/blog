@@ -12,3 +12,8 @@ tags:
 [kafka设计解析(六)](https://www.infoq.cn/article/kafka-analysis-part-6)
 [kafka设计解析(七)](https://www.infoq.cn/article/kafka-analysis-part-7)
 [kafka设计解析(八)](https://www.infoq.cn/article/kafka-analysis-part-8)
+
+https://mp.weixin.qq.com/s/EKyZs_mERGPeQ1qv-8wiXw  
+https://maimai.cn/article/detail?fid=1268987894&efid=zu5dor1XDR2-ukBvGA7bXA  
+https://mp.weixin.qq.com/s/wnULO6pJ4BkxhNNlWoLhrw  
+
