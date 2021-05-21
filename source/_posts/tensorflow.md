@@ -10,4 +10,4 @@ tags:
 
 [tensorflow计算图原理](https://zhuanlan.zhihu.com/p/25932160)  
 
- 
+[tensorflow shard](https://cloud.tencent.com/developer/article/1010280)   
