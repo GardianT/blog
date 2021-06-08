@@ -6,6 +6,9 @@ tags: git
 
 <iframe frameborder="no" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=22743825&auto=1&height=66"></iframe>
 
+
+[git原理](http://www.ruanyifeng.com/blog/2018/10/git-internals.html)
+
 ## git 切换账号后 push出错
 
 现象是配置过`git config --global user.name`等信息，但是更改过。  
