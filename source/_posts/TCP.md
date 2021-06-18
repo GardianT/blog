@@ -11,3 +11,8 @@ tags:
 [TCP FIN_WAIT_1状态到底能持续多久](https://blog.csdn.net/dog250/article/details/81697403)
 
 https://mp.weixin.qq.com/s/-F30mIjULN5TgtC5v1KzyA
+
+[brpc详解](https://blog.csdn.net/wxj1992)
+[gdb](https://wizardforcel.gitbooks.io/100-gdb-tips/content/)
+[brpc开发](https://www.bookstack.cn/read/incubator-brpc/a3ad49b2cba58685.md)
+
